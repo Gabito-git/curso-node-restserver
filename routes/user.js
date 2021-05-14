@@ -7,7 +7,10 @@ const {
     usersDelete,
 } = require('../controllers/user');
 const { roleValidator, emailExists, userByID } = require('../helpers/db-validators');
-const validarCampos = require('../middlewares/validarCampos');
+
+const { validarCampos, validarJWT, validaRole} = require('../middlewares');
+
+// const esAdminRole = require('../middlewares/validarRoles');
 const router = Router();
 
 router.get('/', usersGet);
@@ -30,6 +33,9 @@ router.post('/', [
 ],usersPost);
 
 router.delete('/:id',[
+    validarJWT,
+    // esAdminRole,
+    validaRole.tieneRole('ADMIN_ROLE', 'SELLS_ROLE'),
     check('id', "No es un ID válido").isMongoId(),
     check('id').custom( userByID ),
     validarCampos
