@@ -25,7 +25,7 @@
 
         var url = window.location.hostname.includes('localhost')
             ? 'http://localhost:8081/api/auth/google'
-            : 'https://dashboard.heroku.com/apps/restserver-basic-lga/api/auth/google'
+            : 'https://restserver-basic-lga.herokuapp.com/api/auth/google'
 
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
