@@ -80,7 +80,7 @@ const googleSignIn = async( req, res ) => {
         }
 
         if( !user.estado ){
-            return res.status(401).json({
+            return res.status(401).json({                
                 msg: "Hable con su administrador, usuario bloqueado"
             })
         }

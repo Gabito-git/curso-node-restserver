@@ -8,7 +8,6 @@ const esAdminRole = ( req, res, next ) => {
     }
 
     const { role, nombre } = req.user;
-    console.log(role);
 
     if( role !== 'ADMIN_ROLE' ){
         return res.status(401).json({
