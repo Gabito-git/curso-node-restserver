@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const { dbConnection } = require('../db/config');
+const fileUpload = require('express-fileupload');
 require('dotenv').config();
+
+const { dbConnection } = require('../db/config');
 
 class Server {
     constructor() {
@@ -13,6 +15,7 @@ class Server {
             buscar:     '/api/buscar',
             categories: '/api/categories',
             productos:  '/api/products',
+            uploads:    '/api/uploads',
             users:      '/api/users',
         }       
 
@@ -33,10 +36,11 @@ class Server {
     routes() {
 
         this.app.use(this.paths.auth, require('../routes/auth'));
-        this.app.use(this.paths.users, require('../routes/user'));
+        this.app.use(this.paths.buscar, require('../routes/buscar'))
         this.app.use(this.paths.categories, require('../routes/categories'));
         this.app.use(this.paths.productos, require('../routes/products'));
-        this.app.use(this.paths.buscar, require('../routes/buscar'))
+        this.app.use(this.paths.uploads, require('../routes/uploads'));
+        this.app.use(this.paths.users, require('../routes/user'));
     }
 
     middlewares() {
@@ -48,6 +52,13 @@ class Server {
 
         // Directorio público
         this.app.use(express.static('public'));
+
+        // Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true              // Crea la carpeta destino si no existe
+        }));
     }
 
     execute() {
